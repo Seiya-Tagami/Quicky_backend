@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import EditModal from './Home/partials/EditModal.vue';
+import EditModal from './EditModal.vue';
 
 // pinia
-import { useUserInterfaceStore } from '../stores/UserInterfaceStore';
-import { useMemoStore } from '../stores/MemoStore';
+import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
+import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
-import { Memo } from '../types';
+import { Memo } from '../../../types';
 const uiStore = useUserInterfaceStore();
 const { isDark, isOpen } = storeToRefs(uiStore);
 const memoStore = useMemoStore();

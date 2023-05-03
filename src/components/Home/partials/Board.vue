@@ -1,13 +1,24 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { Memo } from '../../../types';
-import MemoItem from '../../MemoItem.vue';
+import MemoItem from './MemoItem.vue';
 
 // pinia
 const uiStore = useUserInterfaceStore();
 
 // props
 const BoardProps = defineProps<{ isDark: boolean; displayedMemos: Memo[] | null | undefined; category: string }>();
+
+// emits
+const emit = defineEmits(['update:category']);
+
+const computedCategory = computed({
+  get: () => BoardProps.category,
+  set: (value) => {
+    emit('update:category', value);
+  },
+});
 </script>
 
 <template>
@@ -18,7 +29,7 @@ const BoardProps = defineProps<{ isDark: boolean; displayedMemos: Memo[] | null 
         name="category"
         class="p-2 border text-[16px] h-fit rounded cursor-pointer mr-1"
         :class="isDark ? `text-cyan-600 border-cyan-600 bg-gray-800` : `text-cyan-900 border-cyan-900`"
-        v-model="BoardProps.category"
+        v-model="computedCategory"
       >
         <option value="all" selected>all</option>
         <option value="study">study</option>
