@@ -18,16 +18,15 @@ import { Memo } from '../../types';
 const uiStore = useUserInterfaceStore();
 const { isDark, isOpen, registerModalIsShowed, body } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
-const { memos, now } = storeToRefs(memoStore);
+const { memos, now, globalCategory } = storeToRefs(memoStore);
 
 // functions
 const displayedMemos = ref<Memo[] | null | undefined>([]);
-const category = ref<string>('all');
 
 const init = () => {
   memos.value = JSON.parse(localStorage.getItem('memos')!) || [];
   isDark.value = JSON.parse(localStorage.getItem('isDark')!) || false;
-  category.value = JSON.parse(localStorage.getItem('category')!) || 'all';
+  globalCategory.value = JSON.parse(localStorage.getItem('category')!) || 'all';
 
   if (isDark.value) document.body.classList.add('bg-gray-800');
   else document.body.classList.remove('bg-gray-800');
@@ -55,12 +54,12 @@ watch(
   memos,
   (newVal) => {
     localStorage.setItem('memos', JSON.stringify(newVal));
-    filterMemos(category.value);
+    filterMemos(globalCategory.value);
   },
   { deep: true }
 );
 
-watch(category, (newVal) => {
+watch(globalCategory, (newVal) => {
   localStorage.setItem('category', JSON.stringify(newVal));
   filterMemos(newVal);
 });
@@ -80,7 +79,7 @@ watch(isDark, (newVal) => {
 
     <!-- content -->
     <RegisterModal v-if="registerModalIsShowed" />
-    <Board :isDark="isDark" :displayedMemos="displayedMemos" v-model:category="category" />
+    <Board :isDark="isDark" :displayedMemos="displayedMemos" v-model:category="globalCategory" />
     <!-- content -->
   </main>
   <!-- bottom -->

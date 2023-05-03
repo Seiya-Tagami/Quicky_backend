@@ -6,7 +6,8 @@ import { UpdatingData } from "../types";
 export const useMemoStore = defineStore("Memo", {
   state: () => ({
     memos: [] as Memo[] | null,
-    now: new Date()
+    now: new Date(),
+    globalCategory: 'all' as string
   }),
   getters: {
     createdAt(): string {
