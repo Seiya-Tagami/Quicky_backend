@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
-import ActionButton from './partials/ActionButton.vue';
-
+import ActionButton from '../../common/ActionButton.vue';
 // pinia
-import { useUserInterfaceStore } from '../stores/UserInterfaceStore';
-import { useMemoStore } from '../stores/MemoStore';
+import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
+import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
 const uiStore = useUserInterfaceStore();
 const { isDark, registerModalIsShowed } = storeToRefs(uiStore);

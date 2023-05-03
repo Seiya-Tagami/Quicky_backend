@@ -7,7 +7,7 @@ export type Memo = {
   createdAt: string;
   updatedAt: string;
   isDone: boolean
-};
+}
 
 export type AddingData = {
   title: string;

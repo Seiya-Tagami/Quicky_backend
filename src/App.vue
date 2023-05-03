@@ -2,20 +2,22 @@
 import { watch, onMounted, ref } from 'vue';
 
 // components
-import Menu from './components/Menu.vue';
-import RegisterModal from './components/RegisterModal.vue';
-import MemoItem from './components/MemoItem.vue';
-
-// partials
-import ActionButton from './components/partials/ActionButton.vue';
+import RegisterModal from './components/Home/partials/RegisterModal.vue';
 
 // pinia
 import { useUserInterfaceStore } from './stores/UserInterfaceStore';
 import { useMemoStore } from './stores/MemoStore';
 import { storeToRefs } from 'pinia';
 import { Memo } from './types';
+import MemoItem from './components/MemoItem.vue';
+import Header from './components/common/Header.vue';
+import Footer from './components/common/Footer.vue';
+import MiniMenu from './components/common/MiniMenu.vue';
+import Controller from './components/Home/partials/Controller.vue';
+import Board from './components/Home/partials/Board.vue';
+// import MemoItem from './components/partials/MemoItem.vue';
 const uiStore = useUserInterfaceStore();
-const { isDark, registerModalIsShowed, body } = storeToRefs(uiStore);
+const { isDark, isOpen, registerModalIsShowed, body } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
 const { memos, now } = storeToRefs(memoStore);
 
@@ -71,24 +73,15 @@ watch(isDark, (newVal) => {
 
 <template>
   <main class="max-w-[1200px] mx-auto pt-[60px] px-4">
-    <Menu />
-    <div class="">
-      <h1 class="text-4xl font-extrabold text-cyan-900" :class="isDark && `!text-cyan-600`">
-        Simple Memo <span class="text-xl italic">{{ now.getFullYear() }}</span>
-      </h1>
-      <p class="text-[18px] mt-2 text-gray-400" :class="isDark && `!text-gray-300`">Make your life better.</p>
-      <div class="flex gap-2 mt-4">
-        <ActionButton :btn-color="isDark ? `bg-blue-400` : `bg-blue-900`" @on-click="uiStore.handleRegisterModal">
-          New Memo
-          <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-        </ActionButton>
-        <ActionButton :btn-color="isDark ? `bg-gray-400` : `bg-gray-500`" @on-click="memoStore.deleteFn">
-          Delete Memo
-          <font-awesome-icon :icon="['fas', 'eraser']" />
-        </ActionButton>
-      </div>
-    </div>
+    <!-- top -->
+    <MiniMenu :isDark="isDark" :isOpen="isOpen" />
+    <Header :isDark="isDark" :now="now" />
+    <Controller :isDark="isDark" />
+    <!-- top -->
+
+    <!-- content -->
     <RegisterModal v-if="registerModalIsShowed" />
+    <!-- <Board :isDark="isDark" :displayedMemos="displayedMemos" :category="category" /> -->
     <div class="w-full mt-6 md:text-[16px] text-[14px]">
       <div class="flex justify-between items-center">
         <h3 class="p-2 text-2xl font-semibold text-cyan-900" :class="isDark && `!text-cyan-600`">Memos</h3>
@@ -107,7 +100,7 @@ watch(isDark, (newVal) => {
       </div>
       <div class="w-full flex px-3 items-center justify-around border-b-2 border-cyan-900" :class="isDark && `!border-cyan-600`" />
       <div class="min-h-[400px] flex flex-col gap-2 mt-4 md:p-2 md:overflow-y-auto md:scrollbar scrollbar-thumb-slate-400 scrollbar-track-slate-700">
-        <MemoItem v-if="displayedMemos?.length" v-for="memo in displayedMemos" :memo="memo" :key="memo.title" />
+        <MemoItem v-if="displayedMemos?.length" v-for="memo in displayedMemos" :memo="memo" :key="memo.id" />
         <div v-else class="mx-auto mt-6 flex gap-2 font-semibold" :class="isDark && `text-white`">
           <p class="md:text-3xl text-2xl italic">Let's register a new memo...</p>
           <font-awesome-icon
@@ -119,7 +112,7 @@ watch(isDark, (newVal) => {
       </div>
     </div>
   </main>
-  <footer class="w-full h-[60px] text-center text-[18px] mt-10" :class="isDark && `text-white`">
-    <small class="leading-[60px]">&copy; {{ now.getFullYear() }} SeiyaCode</small>
-  </footer>
+  <!-- bottom -->
+  <Footer :isDark="isDark" :now="now" />
+  <!-- bottom -->
 </template>

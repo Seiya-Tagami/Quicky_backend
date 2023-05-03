@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import EditModal from './EditModal.vue';
+import EditModal from './Home/partials/EditModal.vue';
 
 // pinia
 import { useUserInterfaceStore } from '../stores/UserInterfaceStore';

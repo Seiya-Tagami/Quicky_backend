@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import ActionButton from './partials/ActionButton.vue';
-import ErrorMessage from './utils/ErrorMessage.vue';
+import ActionButton from '../../common/ActionButton.vue';
+import ErrorMessage from '../../utils/ErrorMessage.vue';
 
 //pinia
-import { useUserInterfaceStore } from '../stores/UserInterfaceStore';
-import { useMemoStore } from '../stores/MemoStore';
+import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
+import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
 const uiStore = useUserInterfaceStore();
 const { isDark } = storeToRefs(uiStore);
