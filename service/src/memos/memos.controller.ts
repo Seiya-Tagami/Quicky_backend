@@ -17,7 +17,7 @@ export class MemosController {
 
   @Post()
   create(@Body() createMemoDto: CreateMemoDto) {
-    return this.memosService.create(createMemoDto);
+    return this.memosService.createMemo(createMemoDto);
   }
 
   @Get()
@@ -32,7 +32,17 @@ export class MemosController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMemoDto: UpdateMemoDto) {
-    return this.memosService.update(+id, updateMemoDto);
+    return this.memosService.updateMemo(id, updateMemoDto);
+  }
+
+  @Patch('update/isdone/:id')
+  updateIsDone(@Param('id') id: string) {
+    return this.memosService.updateIsDone(id);
+  }
+
+  @Patch('update/isnotdone/:id')
+  updateIsNotDone(@Param('id') id: string) {
+    return this.memosService.updateIsNotDone(id);
   }
 
   @Delete(':id')

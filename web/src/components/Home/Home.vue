@@ -21,7 +21,7 @@ const memoStore = useMemoStore();
 const { memos, now } = storeToRefs(memoStore);
 
 // functions
-const displayedMemos = ref<Memo[] | null | undefined>();
+const displayedMemos = ref<Memo[] | null | undefined>([]);
 const category = ref<string>('all');
 
 const init = () => {

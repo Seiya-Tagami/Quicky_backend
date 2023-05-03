@@ -23,7 +23,7 @@ export const useMemoStore = defineStore("Memo", {
         title: data.title,
         content: data.content,
         category: data.category,
-        link: data.link,
+        link: data?.link,
         createdAt: this.createdAt,
         updatedAt: "",
         isDone: false,
