@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 const FooterProps = defineProps<{ isDark: boolean; now: Date }>();
 </script>
 <template>
