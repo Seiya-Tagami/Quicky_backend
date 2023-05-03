@@ -15,7 +15,6 @@ import { useMemoStore } from '../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
 import { Memo } from '../../types';
 
-// import MemoItem from './components/partials/MemoItem.vue';
 const uiStore = useUserInterfaceStore();
 const { isDark, isOpen, registerModalIsShowed, body } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
