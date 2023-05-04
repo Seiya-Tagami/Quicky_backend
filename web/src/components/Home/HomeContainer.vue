@@ -13,12 +13,11 @@ const { isDark, body } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
 const { memos, displayedMemos, globalCategory } = storeToRefs(memoStore);
 
-const category = ref<string>('all');
-
 const fetchData = async () => {
   try {
     const res = await axios.get('http://localhost:3000/memos/');
-    console.log(res.data);
+    memos.value = res.data;
+    console.log(memos.value);
   } catch (error) {
     console.log(error);
   }
@@ -28,10 +27,10 @@ const initialize = () => {
   /**
    *  DBとローカルストレージからデータを引っ張る
    */
-  // fetchData();
-  memos.value = JSON.parse(localStorage.getItem('memos')!) || [];
+  fetchData();
+  // memos.value = JSON.parse(localStorage.getItem('memos')!) || [];
   isDark.value = JSON.parse(localStorage.getItem('isDark')!) || false;
-  category.value = JSON.parse(localStorage.getItem('category')!) || 'all';
+  globalCategory.value = JSON.parse(localStorage.getItem('category')!) || 'all';
 
   /**
    *  themeの調整処理

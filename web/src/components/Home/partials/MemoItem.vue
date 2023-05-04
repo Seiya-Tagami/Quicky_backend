@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import EditModal from './EditModal.vue';
 
+import { formatDate } from '../../utils/functions';
+
 // pinia
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
@@ -42,8 +44,8 @@ const handleEditModal = () => {
         <div class="absolute w-[150%] h-[2px] top-1/2 left-1/2 -translate-x-1/2" :class="isDark ? `bg-blue-400` : `bg-cyan-900`" v-show="props.memo?.isDone" />
       </span>
       <div class="flex gap-2 duration-300" :class="[isDark ? `text-violet-300` : `text-gray-500`,props.memo!.isDone && `${isDark ? `!text-gray-400` : `!text-gray-300`}`]">
-        <span>{{ props.memo?.updatedAt !== '' ? 'updated at' : 'created at' }}</span>
-        <span class="font-semibold">{{ props.memo?.updatedAt !== '' ? props.memo?.updatedAt : props.memo?.createdAt }}</span>
+        <span>{{ !props.memo?.updatedAt ? 'created at' : 'updated at' }}</span>
+        <span class="font-semibold">{{ !props.memo?.updatedAt ? formatDate(props.memo?.createdAt) : formatDate(props.memo?.updatedAt) }}</span>
         <span
           class="px-2 ml-6 text-black font-semibold rounded-xl"
           :class="
