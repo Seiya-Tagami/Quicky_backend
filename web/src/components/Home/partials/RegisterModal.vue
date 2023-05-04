@@ -6,6 +6,8 @@ import ActionButton from '../../common/ActionButton.vue';
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
+import { Memo } from '../../../types';
+import axios from 'axios';
 const uiStore = useUserInterfaceStore();
 const { isDark, registerModalIsShowed } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -14,9 +16,10 @@ const memoStore = useMemoStore();
 const title = ref<string>('');
 const content = ref<string>('');
 const category = ref<string>('study');
-const link = ref<string>('');
+const link = ref<string | undefined>('');
 const preventAdd = ref<boolean>(false);
 
+// validationをする関数
 const checkContent = () => {
   const isInputContent = title.value.trim() !== '' && content.value.trim() !== '';
   if (isInputContent) {
@@ -26,10 +29,22 @@ const checkContent = () => {
   }
 };
 
+// post
+const PostMemo = async (data: Omit<Memo, 'id' | 'createdAt' | 'updatedAt' | 'isDone'>) => {
+  try {
+    const res = await axios.post('http://localhost:3000/memos', data, { headers: { 'Content-Type': 'application/json' } });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const addMemo = () => {
   checkContent();
   if (preventAdd.value) return;
-  memoStore.addFn({ title: title.value, content: content.value, category: category.value, link: link.value });
+  const data = { title: title.value, content: content.value, category: category.value, link: link?.value };
+  PostMemo(data);
+  memoStore.addFn(data);
   title.value = '';
   content.value = '';
   category.value = '';

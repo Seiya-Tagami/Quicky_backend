@@ -28,7 +28,6 @@ const initialize = () => {
    *  DBとローカルストレージからデータを引っ張る
    */
   fetchData();
-  // memos.value = JSON.parse(localStorage.getItem('memos')!) || [];
   isDark.value = JSON.parse(localStorage.getItem('isDark')!) || false;
   globalCategory.value = JSON.parse(localStorage.getItem('category')!) || 'all';
 

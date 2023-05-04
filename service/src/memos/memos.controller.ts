@@ -35,12 +35,12 @@ export class MemosController {
     return this.memosService.updateMemo(id, updateMemoDto);
   }
 
-  @Patch('update/isdone/:id')
+  @Patch('isdone/:id')
   updateIsDone(@Param('id') id: string) {
     return this.memosService.updateIsDone(id);
   }
 
-  @Patch('update/isnotdone/:id')
+  @Patch('isnotdone/:id')
   updateIsNotDone(@Param('id') id: string) {
     return this.memosService.updateIsNotDone(id);
   }

@@ -17,7 +17,7 @@ const props = defineProps<{
   title: string;
   content: string;
   category: string;
-  link: string;
+  link: string | undefined;
 }>();
 
 // functions

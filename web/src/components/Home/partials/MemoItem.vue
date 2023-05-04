@@ -69,7 +69,7 @@ const handleEditModal = () => {
     :title="props.memo!.title"
     :content="props.memo!.content"
     :category="props.memo!.category"
-    :link="props.memo!.link"
+    :link="props.memo?.link"
     @on-click="handleEditModal"
   />
 </template>
