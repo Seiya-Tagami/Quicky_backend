@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import Home from './Home.vue';
 
@@ -11,7 +11,7 @@ import { storeToRefs } from 'pinia';
 const uiStore = useUserInterfaceStore();
 const { isDark, body } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
-const { memos } = storeToRefs(memoStore);
+const { memos, displayedMemos, globalCategory } = storeToRefs(memoStore);
 
 const category = ref<string>('all');
 
@@ -28,7 +28,7 @@ const initialize = () => {
   /**
    *  DBとローカルストレージからデータを引っ張る
    */
-  fetchData();
+  // fetchData();
   memos.value = JSON.parse(localStorage.getItem('memos')!) || [];
   isDark.value = JSON.parse(localStorage.getItem('isDark')!) || false;
   category.value = JSON.parse(localStorage.getItem('category')!) || 'all';
@@ -43,9 +43,37 @@ const initialize = () => {
   }, 100);
 };
 
-// onMounted(() => {
-//   initialize()
-// });
+onMounted(() => {
+  initialize();
+});
+
+const filterMemos = (type: string) => {
+  if (type === 'all') {
+    displayedMemos.value = memos.value;
+    return;
+  }
+  const filteredMemos = memos.value?.filter((memo) => memo.category === type);
+  displayedMemos.value = filteredMemos;
+};
+
+// watchers
+watch(
+  memos,
+  (newVal) => {
+    localStorage.setItem('memos', JSON.stringify(newVal));
+    filterMemos(globalCategory.value);
+  },
+  { deep: true }
+);
+
+watch(globalCategory, (newVal) => {
+  localStorage.setItem('category', JSON.stringify(newVal));
+  filterMemos(newVal);
+});
+
+watch(isDark, (newVal) => {
+  localStorage.setItem('isDark', JSON.stringify(newVal));
+});
 </script>
 <template>
   <Home />

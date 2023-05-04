@@ -6,6 +6,7 @@ import { UpdatingData } from "../types";
 export const useMemoStore = defineStore("Memo", {
   state: () => ({
     memos: [] as Memo[] | null,
+    displayedMemos: [] as Memo[] | null | undefined,
     now: new Date(),
     globalCategory: 'all' as string
   }),
