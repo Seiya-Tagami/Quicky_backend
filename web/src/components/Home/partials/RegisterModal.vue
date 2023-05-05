@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import axios from 'axios';
 
 import ActionButton from '../../common/ActionButton.vue';
 
-// pinia
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
-import axios from 'axios';
 import { postMemo } from '../../../api/functions';
+
+// pinia
 const uiStore = useUserInterfaceStore();
 const { isDark, registerModalIsShowed } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -20,7 +21,7 @@ const category = ref<string>('study');
 const link = ref<string | undefined>('');
 const preventAdd = ref<boolean>(false);
 
-// validation用の関数
+// for validation
 const checkContent = () => {
   const isInputContent = title.value.trim() !== '' && content.value.trim() !== '';
   return isInputContent ? false : true;
@@ -44,6 +45,8 @@ const addMemo = () => {
   const data = { title: title.value, content: content.value, category: category.value, link: link?.value };
   // api
   postMemo(data);
+
+  // state for UI
   memoStore.addFn(data);
   refetchMemos();
   title.value = '';

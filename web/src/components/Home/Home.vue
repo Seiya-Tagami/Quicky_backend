@@ -7,11 +7,11 @@ import Controller from './partials/Controller.vue';
 import Board from './partials/Board.vue';
 import RegisterModal from './partials/RegisterModal.vue';
 
-// pinia
 import { useUserInterfaceStore } from '../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
 
+// pinia
 const uiStore = useUserInterfaceStore();
 const { isDark, isOpen, registerModalIsShowed } = storeToRefs(uiStore);
 const memoStore = useMemoStore();

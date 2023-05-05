@@ -12,12 +12,10 @@ export class MemosService {
   }
 
   findAll() {
-    // return `This action returns all memos`;
     return this.prisma.memo.findMany();
   }
 
   findOne(id: string) {
-    // return `This action returns a #${id} memo`;
     return this.prisma.memo.findUnique({ where: { id } });
   }
 
@@ -47,8 +45,15 @@ export class MemosService {
       },
     });
   }
-  removeById(id: string) {
-    // return `This action removes a #${id} memo`
+  async removeById(id: string) {
     return this.prisma.memo.delete({ where: { id } });
+  }
+
+  async removeMemosByIsDone() {
+    return this.prisma.memo.deleteMany({
+      where: {
+        isDone: true,
+      },
+    });
   }
 }

@@ -49,4 +49,9 @@ export class MemosController {
   remove(@Param('id') id: string) {
     return this.memosService.removeById(id);
   }
+
+  @Delete()
+  removeByIds() {
+    return this.memosService.removeMemosByIsDone();
+  }
 }

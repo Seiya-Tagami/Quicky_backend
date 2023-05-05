@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import EditModal from './EditModal.vue';
-
+import { Memo } from '../../../types';
 import { formatDate } from '../../utils/functions';
 
 import { updateIsDone } from '../../../api/functions';
 
-// pinia
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
-import { Memo } from '../../../types';
+
+// pinia
 const uiStore = useUserInterfaceStore();
 const { isDark, isOpen } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -24,10 +24,11 @@ const handleMemo = () => {
   const targetMemo = memos.value?.find((memo) => memo.id === MemoItemProps.memo.id);
   // api
   if (!targetMemo?.isDone) {
-    updateIsDone(MemoItemProps.memo.id, 'http://localhost:3000/memos/isdone/');
+    updateIsDone(MemoItemProps.memo.id, 'isdone');
   } else {
-    updateIsDone(MemoItemProps.memo.id, 'http://localhost:3000/memos/isnotdone/');
+    updateIsDone(MemoItemProps.memo.id, 'isnotdone');
   }
+  // state for UI
   memoStore.handleFn(MemoItemProps.memo.id);
 };
 

@@ -3,13 +3,13 @@ import { ref } from 'vue';
 import ActionButton from '../../common/ActionButton.vue';
 import ErrorMessage from '../../utils/ErrorMessage.vue';
 
-//pinia
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
 
-// api
 import { updateMemo } from '../../../api/functions';
+
+// pinia
 const uiStore = useUserInterfaceStore();
 const { isDark } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -42,20 +42,18 @@ const allowEditLink = () => {
 
 const checkContent = () => {
   const isInputContent = title.value.trim() !== '' && content.value.trim() !== '';
-  if (isInputContent) {
-    preventUpdate.value = false;
-  } else {
-    preventUpdate.value = true;
-  }
+  return isInputContent ? false : true;
 };
 
 const handleEdit = () => {
-  checkContent();
+  preventUpdate.value = checkContent();
   if (preventUpdate.value) return;
 
   const data = { title: title.value, content: content.value, category: category.value, link: link.value };
   // api
   updateMemo(props.id, data);
+
+  // state for UI
   memoStore.updateFn({ id: props.id, ...data });
   handleEditModal();
 };

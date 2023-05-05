@@ -25,14 +25,14 @@ const fetchData = async () => {
 
 const initialize = () => {
   /**
-   *  DBとローカルストレージからデータを引っ張る
+   * DBとローカルストレージからデータを引っ張る
    */
   fetchData();
   isDark.value = JSON.parse(localStorage.getItem('isDark')!) || false;
   globalCategory.value = JSON.parse(localStorage.getItem('category')!) || 'all';
 
   /**
-   *  themeの調整処理
+   * themeの調整処理
    */
   if (isDark.value) document.body.classList.add('bg-gray-800');
   else document.body.classList.remove('bg-gray-800');
@@ -54,23 +54,28 @@ const filterMemos = (type: string) => {
   displayedMemos.value = filteredMemos;
 };
 
-// watchers
+/**
+ * メモが追加された時、カテゴリーによって、メモを表示
+ */
 watch(
   memos,
   (newVal) => {
-    localStorage.setItem('memos', JSON.stringify(newVal));
     filterMemos(globalCategory.value);
   },
   { deep: true }
 );
 
-// カテゴリーの監視
+/**
+ * カテゴリーの監視
+ */
 watch(globalCategory, (newVal) => {
   localStorage.setItem('category', JSON.stringify(newVal));
   filterMemos(newVal);
 });
 
-// ダークモードの監視
+/**
+ * ダークモードの監視
+ */
 watch(isDark, (newVal) => {
   localStorage.setItem('isDark', JSON.stringify(newVal));
 });
