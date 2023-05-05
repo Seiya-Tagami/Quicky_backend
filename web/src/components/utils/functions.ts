@@ -1,8 +1,13 @@
 import dayjs from "dayjs"
 
-export const sleep = (miliSeconds: number) => {
+/**
+ * 処理を待つ関数
+ * @param milliSeconds 
+ * @returns 
+ */
+export const sleep = (milliSeconds: number) => {
   return new Promise<void>((resolve) => {
-    setTimeout(() => resolve(), miliSeconds);
+    setTimeout(() => resolve(), milliSeconds);
   });
 };
 /**

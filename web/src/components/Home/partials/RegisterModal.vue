@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 import ActionButton from '../../common/ActionButton.vue';
+
 // pinia
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
-import { Memo } from '../../../types';
 import axios from 'axios';
+import { postMemo } from '../../../api/functions';
 const uiStore = useUserInterfaceStore();
 const { isDark, registerModalIsShowed } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -19,42 +20,38 @@ const category = ref<string>('study');
 const link = ref<string | undefined>('');
 const preventAdd = ref<boolean>(false);
 
-// validationをする関数
+// validation用の関数
 const checkContent = () => {
   const isInputContent = title.value.trim() !== '' && content.value.trim() !== '';
-  if (isInputContent) {
-    preventAdd.value = false;
-  } else {
-    preventAdd.value = true;
-  }
+  return isInputContent ? false : true;
 };
 
 // post
-const PostMemo = async (data: Omit<Memo, 'id' | 'createdAt' | 'updatedAt' | 'isDone'>) => {
+const { memos } = storeToRefs(memoStore);
+const refetchMemos = async () => {
   try {
-    const res = await axios.post('http://localhost:3000/memos', data, { headers: { 'Content-Type': 'application/json' } });
-    console.log(res);
+    const res = await axios.get('http://localhost:3000/memos/');
+    memos.value = res.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 const addMemo = () => {
-  checkContent();
+  preventAdd.value = checkContent();
   if (preventAdd.value) return;
+
   const data = { title: title.value, content: content.value, category: category.value, link: link?.value };
-  PostMemo(data);
+  // api
+  postMemo(data);
   memoStore.addFn(data);
+  refetchMemos();
   title.value = '';
   content.value = '';
   category.value = '';
   link.value = '';
   registerModalIsShowed.value = false;
 };
-
-watch(category, (newVal) => {
-  console.log(newVal);
-});
 </script>
 
 <template>

@@ -64,11 +64,13 @@ watch(
   { deep: true }
 );
 
+// カテゴリーの監視
 watch(globalCategory, (newVal) => {
   localStorage.setItem('category', JSON.stringify(newVal));
   filterMemos(newVal);
 });
 
+// ダークモードの監視
 watch(isDark, (newVal) => {
   localStorage.setItem('isDark', JSON.stringify(newVal));
 });

@@ -7,6 +7,9 @@ import ErrorMessage from '../../utils/ErrorMessage.vue';
 import { useUserInterfaceStore } from '../../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../../stores/MemoStore';
 import { storeToRefs } from 'pinia';
+
+// api
+import { updateMemo } from '../../../api/functions';
 const uiStore = useUserInterfaceStore();
 const { isDark } = storeToRefs(uiStore);
 const memoStore = useMemoStore();
@@ -46,10 +49,14 @@ const checkContent = () => {
   }
 };
 
-const updateMemo = () => {
+const handleEdit = () => {
   checkContent();
   if (preventUpdate.value) return;
-  memoStore.updateFn({ id: props.id!, title: title.value, content: content.value, category: category.value, link: link.value });
+
+  const data = { title: title.value, content: content.value, category: category.value, link: link.value };
+  // api
+  updateMemo(props.id, data);
+  memoStore.updateFn({ id: props.id, ...data });
   handleEditModal();
 };
 </script>
@@ -104,7 +111,7 @@ const updateMemo = () => {
       </div>
       <div class="mt-6 ml-auto flex gap-2 w-fit">
         <ActionButton :btn-color="isDark ? `bg-gray-400` : `bg-gray-500`" @on-click="handleEditModal">Cancel</ActionButton>
-        <ActionButton :btn-color="isDark ? `bg-blue-400` : `bg-blue-900`" @on-click="updateMemo">Update</ActionButton>
+        <ActionButton :btn-color="isDark ? `bg-blue-400` : `bg-blue-900`" @on-click="handleEdit">Update</ActionButton>
       </div>
     </div>
   </div>
