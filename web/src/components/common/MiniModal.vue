@@ -33,7 +33,7 @@ const onClick = () => {
           <a href="https://github.com/Seiya-Tagami/Simple-Memo" :class="props.isDark && `w-7 h-7 rounded-lg bg-white flex items-center justify-center`">
             <img src="/github.png" alt="github" class="w-6 h-6" />
           </a>
-          <a href="https://seiya-tagami.github.io/portfolio" :class="props.isDark && `w-7 h-7 rounded-lg bg-white flex items-center justify-center`">
+          <a href="https://seiyacode.vercel.app/" :class="props.isDark && `w-7 h-7 rounded-lg bg-white flex items-center justify-center`">
             <img src="/developer.png" alt="developer" class="w-6 h-6" />
           </a>
         </div>
