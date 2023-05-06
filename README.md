@@ -1,4 +1,4 @@
-# Simple Memo with Nest.js(REST API)
+# Simple Memo with Nest.js (REST API)
 
 ## Preview
 
