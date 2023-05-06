@@ -1,11 +1,8 @@
 <script setup lang="ts">
-// components
 import Title from '../common/Title.vue';
+import LoginForm from './partials/LoginForm.vue';
 import Footer from '../common/Footer.vue';
 import MiniMenu from '../common/MiniMenu.vue';
-import Controller from './partials/Controller.vue';
-import Board from './partials/Board.vue';
-import RegisterModal from './partials/RegisterModal.vue';
 
 import { useUserInterfaceStore } from '../../stores/UserInterfaceStore';
 import { useMemoStore } from '../../stores/MemoStore';
@@ -23,12 +20,10 @@ const { displayedMemos, now, globalCategory } = storeToRefs(memoStore);
     <!-- top -->
     <MiniMenu :isDark="isDark" :isOpen="isOpen" />
     <Title :isDark="isDark" />
-    <Controller :isDark="isDark" />
     <!-- top -->
 
     <!-- content -->
-    <RegisterModal v-if="registerModalIsShowed" />
-    <Board :isDark="isDark" :displayedMemos="displayedMemos" v-model:category="globalCategory" />
+    <LoginForm />
     <!-- content -->
   </main>
   <!-- bottom -->
