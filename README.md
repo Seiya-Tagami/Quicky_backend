@@ -18,6 +18,7 @@ This product uses the following things:
 
 - Vue.js
 - TypeScript
+- vue router
 - Pinia
 - Tailwind CSS
 - Vite
